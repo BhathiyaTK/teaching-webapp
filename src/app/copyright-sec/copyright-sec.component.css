@@ -1,0 +1,17 @@
+.copyright-div {
+  background: var(--theme-black);
+  color: var(--theme-white);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.copyright-div a {
+  color: var(--theme-orange);
+  padding-top: 1px;
+  padding-bottom: 2px;
+}
+.copyright-div a:hover {
+  text-decoration: none;
+  border-top: 1px solid var(--theme-orange);
+  border-bottom: 1px solid var(--theme-orange);
+}

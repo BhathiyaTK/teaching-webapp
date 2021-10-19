@@ -1,0 +1,61 @@
+<div class="tab-title">
+    <p class="mb-0">Upload study materials for this class 
+        <small class="text-primary"><i>&#8212; Only PDF files are allowed</i></small>
+    </p>
+</div>
+<hr>
+<div class="alert alert-success alert-dismissible text-left" *ngIf="successAlert">
+    <i class="material-icons float-left mr-2">check_circle</i> 
+    {{successText}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="alert alert-danger alert-dismissible text-left" *ngIf="errorAlert">
+    <i class="material-icons float-left">cancel</i>
+    {{errorText}}<br><small>Please try again shortly.</small>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="mb-2" *ngIf="isUploading && percentageVal | async as pct">
+    <div class="progress" style="height: 10px;">
+        <div class="progress-bar bg-success progress-bar-striped" role="progressbar" [ngStyle]="{width:pct+'%'}" attr.aria-valuenow="{{pct | number}}" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <i><small class="text-success">Uploading files - {{pct | number:'1.0-0'}}%</small></i>
+</div>
+<ngx-dropzone (change)="onSMSelect($event)" [multiple]="true" [accept]="'application/pdf'" [disabled]="zoneDisable">
+    <ngx-dropzone-label class="mb-3">
+        <i class="material-icons md-55">cloud_upload</i>
+        <h6>Drag and drop file(s) here</h6>
+        <p class="my-2"><small>&#8212; OR &#8212;</small></p>
+        <small class="px-3 py-1 theme-btn">Browse file(s)</small>
+    </ngx-dropzone-label>
+    <ngx-dropzone-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onSMRemove(f)">
+        <ngx-dropzone-label title="{{f.name}}">
+            <i class="material-icons md-42">picture_as_pdf</i><br>
+            <small>{{ shorterFileName(f.name, 10) }}</small>
+        </ngx-dropzone-label>
+    </ngx-dropzone-preview>
+</ngx-dropzone>
+<div class="tab-title mt-4">
+    <p class="mb-0">Uploaded resources</p>
+</div>
+<hr>
+<div class="study-file row mt-3 m-0" *ngIf="smList">
+    <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 px-0" *ngFor="let sm of smList; let key = index">
+        <a href="{{sm.downloadURL}}" title="{{sm.fileName}}" target="_blank" class="text-center">
+            <div class="download-file-div py-3">
+                <i class="material-icons md-42">description</i><br>
+                <small>{{shorterFileName(sm.fileName, 7)}}</small>
+            </div>
+        </a>
+        <span class="file-del-btn"><i class="material-icons text-danger" (click)="delStudyMaterial(smKeyList[key], sm.path)">cancel</i></span>
+    </div>
+</div>
+<div class="no-data-msg" *ngIf="emptyMsg">
+    <small class="text-danger">
+        <i class="material-icons float-left md-21 mr-2" style="margin-top: 3.2px;">error_outline</i>
+        No study materials found.
+    </small>
+</div>

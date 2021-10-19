@@ -1,0 +1,91 @@
+<form>
+  <div class="row mb-3 align-items-center justify-content-between">
+    <div class="col-sm-12 col-md-9 col-lg-5">
+      <div class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2 w-100" type="search" placeholder="Search by the first OR last name"
+          aria-label="Search" (keyup)="filterTeacher($event)">
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-3 col-lg-2 text-right">
+      <button type="reset" class="other-btn" (click)="dataRefresh()"
+        [ngClass]="{'special-del-btn': (typedFilterText !== ''), 'other-btn': (typedFilterText == '')}">
+        {{(typedFilterText !== '') ? "Clear filters" : "Refresh"}}
+      </button>
+    </div>
+  </div>
+</form>
+
+<p class="text-muted font-italic" *ngIf="typedFilterText !== ''">{{filteredResultCount}} teacher(s) found for the name
+  '{{typedFilterText}}'</p>
+
+<div class="alert alert-success alert-dismissible text-left mb-3" *ngIf="successAlert">
+  <i class="material-icons float-left mr-2">check_circle</i>
+  {{successText}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="alert alert-danger alert-dismissible text-left mb-3" *ngIf="errorAlert">
+  <i class="material-icons float-left">cancel</i>
+  {{errorText}}<br><small>Please try again shortly.</small>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="text-center my-4" *ngIf="spinner">
+  <img class="spinner" src="../../../../assets/images/loaders/spin_lg_white_edge.gif">
+  <h6 class="text-monospace">Loading teachers...</h6>
+</div>
+<div class="mt-4 text-center empty-msg" *ngIf="emptyMsg">
+  <div><i class="material-icons md-55">person_search</i></div>
+  <div>
+    <p>No teachers found.</p>
+  </div>
+</div>
+
+<div *ngIf="teachersList" class="teacher-parent-div">
+  <div class="data-parent bg-white shadow-sm border" *ngFor="let teacher of Teachers; let i = index;">
+    <div class="delete-items-loader text-center" *ngIf="(delVal == 'show'+teacher.teacherId)">
+      <div>
+        <img src="../../../../assets/images/loaders/spim_sm_no_edges.gif" alt="spinner">
+        <span class="text-monospace mt-2 ml-2">Deleting...</span>
+      </div>
+    </div>
+    <div #deleteChild class="data-child-wrapper" [class.bg-blur]="(delVal == 'show'+teacher.teacherId)"
+      [attr.data-delete-child-id]="teacher.teacherId">
+      <div class="data-child-content">
+        <div class="row">
+          <div class="col-sm-12 col-md-7 col-lg-7">
+            <span class="data-child-teacher text-muted">Teacher ID: {{teacher.teacherId}}</span>
+            <h5 class="mb-0 data-child-title">{{teacher.fName}} {{teacher.lName}}</h5>
+            <span class="data-child-teacher">{{teacher.eduQual}}</span>
+            <hr>
+            <p class="mt-2 mb-0 classNote">
+              <app-teacher-show-more-less [content]="teacher.teacherIntro" [limit]="90" [completeWords]="true">
+              </app-teacher-show-more-less>
+            </p>
+          </div>
+          <div class="col-sm-12 col-md-5 col-lg-5 data-child-sub-content-right">
+            <div class="data-child-sub-factor align-items-center text-muted">
+              <div class="mb-3"><span class="material-icons md-21 mr-2 float-left">call</span>Tel.
+                — {{teacher.telephone}}</div>
+              <div class="mb-3"><span class="material-icons md-21 mr-2 float-left">place</span>City
+                — {{teacher.city}}
+              </div>
+              <div class="mb-0"><span class="material-icons md-21 mr-2 float-left">home</span>Address —
+                {{teacher.address}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="data-child-actions">
+        <div>
+          <button class="action-btn del-btn ml-2 single-del-btn"
+            (click)="deleteSelectedTeacher(teacher.teacherId, deleteChild)">
+            <i class="material-icons md-19 float-left">clear</i>&nbsp;Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="sidebar">
+    <div class="sidebar-logo p-5">
+        <img src="../../../assets/images/logo.png" alt="Logo Image">
+    </div>
+    <div class="sidebar-navs">
+        <a (click)="sidebarToggleEvent()" routerLink="/mPanel/joined-classes" routerLinkActive="active"
+            *ngIf="auth.currentUser.Role == 'student'">
+            <i class="material-icons mr-3 float-left md-21">local_library</i>
+            Joined Classes
+        </a>
+        <!-- <a (click)="sidebarToggleEvent()" routerLink="/mPanel/unavailable-classes" routerLinkActive="active" *ngIf="auth.currentUser.Role == 'student'">
+            <i class="material-icons mr-3 float-left md-21">error</i>
+            Classes to be paid <span class="badge badge-danger ml-2">2</span>
+        </a> -->
+        <a (click)="sidebarToggleEvent()" routerLink="/mPanel/classes" routerLinkActive="active"
+            *ngIf="auth.currentUser.Role == 'student'">
+            <i class="material-icons mr-3 float-left md-21">view_list</i>
+            Browse All Classes
+        </a>
+        <a (click)="sidebarToggleEvent()" routerLink="/mPanel/my-classes" routerLinkActive="active"
+            *ngIf="auth.currentUser.Role == 'teacher'">
+            <i class="material-icons mr-3 float-left md-21">school</i>
+            My Classes
+        </a>
+        <a (click)="sidebarToggleEvent()" routerLink="/mPanel/new-class" routerLinkActive="active"
+            *ngIf="auth.currentUser.Role == 'teacher'">
+            <i class="material-icons mr-3 float-left md-21">add</i>
+            New Class
+        </a>
+        <a (click)="sidebarToggleEvent()" routerLink="/mPanel/dashboard" routerLinkActive="active"
+            *ngIf="auth.currentUser.Role == 'admin'">
+            <i class="material-icons mr-3 float-left md-21">dashboard</i>
+            Dashboard
+        </a>
+        <a (click)="sidebarToggleEvent()" routerLink="/mPanel/manage-classes" routerLinkActive="active"
+            *ngIf="auth.currentUser.Role == 'admin'">
+            <i class="material-icons mr-3 float-left md-21">school</i>
+            Manage Classes
+        </a>
+        <a (click)="sidebarToggleEvent()" routerLink="/mPanel/manage-teachers" routerLinkActive="active"
+            *ngIf="auth.currentUser.Role == 'admin'">
+            <i class="material-icons mr-3 float-left md-21">people</i>
+            Manage Teachers
+        </a>
+        <a (click)="sidebarToggleEvent()" routerLink="/mPanel/manage-students" routerLinkActive="active"
+            *ngIf="auth.currentUser.Role == 'admin'">
+            <i class="material-icons mr-3 float-left md-21">groups</i>
+            Manage Students
+        </a>
+    </div>
+    <div class="developer-sec text-center">
+        <small class="text-muted ">Powered by<br><a href="https://epiclabs.lk" target="_blank">EPIC
+                LABS &#10132;</a></small>
+    </div>
+</div>

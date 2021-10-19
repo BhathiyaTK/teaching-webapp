@@ -1,0 +1,29 @@
+.alert{
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+.alert.alert-danger i {
+    margin: 13px 15px 0 0;
+}
+.alert.alert-danger > small{
+    font-family: "Arial";
+}
+.alert.alert-danger > button{
+    padding-top: 23px;
+}
+.reg-email-input{
+    position: relative;
+}
+.validator-spinner{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2) { 
+    .spec-col{
+        margin-bottom: 15px;
+    }
+}

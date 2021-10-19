@@ -1,0 +1,18 @@
+.data-child-content > div > div {
+  border-right: 1px solid var(--theme-gray-dark);
+}
+.data-child-desc-title {
+  font-size: 13px;
+  text-transform: capitalize;
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+  .data-child-content > div > div {
+    border-right: none;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+  .data-child-content > div > div:last-child {
+    border-right: none;
+  }
+}

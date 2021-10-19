@@ -1,0 +1,114 @@
+<section class="control-panel-content-section">
+    <div class="content-title">
+        <h3 class="mb-0">My Classes</h3>
+        <span>All the classes conducted and owned by you</span>
+    </div>
+    <div class="control-panel-content mt-4">
+        <div class="text-center my-5" *ngIf="spinner">
+            <img class="spinner" src="../../../../assets/images/loaders/spin_lg_white_edge.gif">
+            <h6 class="text-monospace">Loading classes...</h6>
+        </div>
+        <div class="mt-4" *ngIf="!emptyMsg">
+            <div class="alert alert-danger mb-0">
+                <i class="material-icons float-left mr-2">error</i>
+                No classes found.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-3 class-col" *ngFor="let class of myclasses"
+                style="margin-bottom: 30px;">
+                <a [routerLink]="['/mPanel/my-classes', class.tutionClassId, removeUrlSpaces(class.name)]">
+                    <div class="card custom-shadow-div">
+                        <img src="../../../assets/images/bg2.jpg" class="card-img-top" alt="Class Banner Image">
+                        <div class="card-body">
+                            <h6 class="card-title">{{class.name}}</h6>
+                            <p class="card-text">
+                                Every {{class.hDate}} @ {{timeConverter(class.htime)}}
+                            </p>
+                            <hr>
+                            <p class="class-price text-muted mb-0">
+                                Rs.{{class.classFee}}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4 class-col" style="margin-bottom: 30px;">
+                <a [routerLink]="['/mPanel/my-classes', 12, removeUrlSpaces('Test Class')]">
+                    <div class="card custom-shadow-div">
+                        <div class="card-img-top"
+                            style="background-image: url(../../../assets/images/bg2.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">English Language & Literature</h6>
+                            <p class="card-text">
+                                Every Monday @ {{timeConverter("14:30")}}
+                            </p>
+                            <hr>
+                            <p class="class-price text-muted mb-0">
+                                {{currencyConvertor("3500")}}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4 class-col" style="margin-bottom: 30px;">
+                <a [routerLink]="['/mPanel/my-classes', 12, removeUrlSpaces('Test Class')]">
+                    <div class="card custom-shadow-div">
+                        <div class="card-img-top"
+                            style="background-image: url(../../../assets/images/bg2.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">Mathematics (Ordinary Level)</h6>
+                            <p class="card-text">
+                                Every Wegnesday @ {{timeConverter("08:00")}}
+                            </p>
+                            <hr>
+                            <p class="class-price text-muted mb-0">
+                                {{currencyConvertor("4500")}}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4 class-col" style="margin-bottom: 30px;">
+                <a [routerLink]="['/mPanel/my-classes', 12, removeUrlSpaces('Test Class')]">
+                    <div class="card custom-shadow-div">
+                        <div class="card-img-top"
+                            style="background-image: url(../../../assets/images/bg2.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">Science & Technology (Grade 6 to 9)</h6>
+                            <p class="card-text">
+                                Every Friday @ {{timeConverter("17:00")}}
+                            </p>
+                            <hr>
+                            <p class="class-price text-muted mb-0">
+                                {{currencyConvertor("5500")}}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4 class-col" style="margin-bottom: 30px;">
+                <a [routerLink]="['/mPanel/my-classes', 12, removeUrlSpaces('Test Class')]">
+                    <div class="card custom-shadow-div">
+                        <div class="card-img-top"
+                            style="background-image: url(../../../assets/images/bg2.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">Economics (Advanced Level)</h6>
+                            <p class="card-text">
+                                Every Saturday @ {{timeConverter("09:00")}}
+                            </p>
+                            <hr>
+                            <p class="class-price text-muted mb-0">
+                                {{currencyConvertor("6000")}}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

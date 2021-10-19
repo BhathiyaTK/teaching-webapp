@@ -1,0 +1,59 @@
+.page-content-wrapper {
+  position: relative;
+  min-height: 100vh;
+}
+.header-image-col {
+  text-align: center;
+}
+.header-image-col img {
+  width: 60%;
+}
+#signin-bottom-section h4 {
+  font-family: cp_m;
+  margin: 20px 0;
+  text-align: center;
+}
+#signin-bottom-section p {
+  font-family: cp_l;
+  color: var(--gray);
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+  .header-image-col img {
+    width: 45%;
+  }
+  .header-signin-form-col {
+    margin-top: 30px;
+  }
+  .split > div:last-child {
+    margin-top: 50px;
+  }
+  .split > div img {
+    width: 20%;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+  .header-image-col img {
+    width: 70%;
+  }
+  .split > div:last-child {
+    margin-top: 50px;
+  }
+  .split > div img {
+    width: 10%;
+  }
+}
+
+@media screen and (min-device-width: 1200px) {
+  .split {
+    display: flex;
+    gap: 3em;
+  }
+  .split > div {
+    width: 50%;
+  }
+  .split > div img {
+    width: 15%;
+  }
+}

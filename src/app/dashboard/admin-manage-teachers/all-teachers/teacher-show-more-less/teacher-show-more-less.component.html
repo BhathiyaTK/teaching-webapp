@@ -1,0 +1,3 @@
+{{content}}
+<a href="javascript:;" *ngIf="!isContentToggled && (content.length > 90)" (click)="toggleContent()">(Show&nbsp;more)</a>
+<a href="javascript:;" *ngIf="isContentToggled" (click)="toggleContent()">(Show&nbsp;less)</a>

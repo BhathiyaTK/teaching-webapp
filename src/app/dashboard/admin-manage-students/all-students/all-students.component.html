@@ -1,0 +1,115 @@
+<form>
+  <div class="row mb-3 align-items-center justify-content-between">
+    <div class="col-sm-12 col-md-12 col-lg-4">
+      <input class="form-control w-100" type="search" placeholder="Search by the first OR last name" aria-label="Search"
+        (keyup)="filterBySearch($event, currentPageNumber)">
+    </div>
+    <div class="col-sm-12 col-md-9 col-lg-6">
+      <div class="form-inline">
+        <select class="custom-select form-control mr-sm-2" name="grade-filter"
+          (change)="filterByGrade($event, currentPageNumber)">
+          <option value="" selected disabled>— Filter by the grade —</option>
+          <option *ngFor="let grade of gradeList" value="{{grade.value}}">{{grade.name}}</option>
+        </select>
+        <select name="medium-filter" class="custom-select form-control"
+          (change)="filterByMedium($event, currentPageNumber)">
+          <option value="" selected disabled>— Filter by the medium —</option>
+          <option value="Sinhala">සිංහල</option>
+          <option value="English">English</option>
+          <option value="Tamil">தமிழ்</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-3 col-lg-2 text-right">
+      <button type="reset" class="other-btn" (click)="dataRefresh(currentPageNumber)"
+        [ngClass]="{'special-del-btn': (typedFilterText !== ''), 'other-btn': (typedFilterText == '')}">
+        {{(typedFilterText !== '') ? "Clear filters" : "Refresh"}}
+      </button>
+    </div>
+  </div>
+</form>
+
+
+<p class="text-muted font-italic" *ngIf="typedFilterText !== ''">
+  {{filteredResultCount}} student(s) found for the {{typedFilterText}}'
+</p>
+
+<div class="alert alert-success alert-dismissible text-left mb-3" *ngIf="successAlert">
+  <i class="material-icons float-left mr-2">check_circle</i>
+  {{successText}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="alert alert-danger alert-dismissible text-left mb-3" *ngIf="errorAlert">
+  <i class="material-icons float-left mr-2">cancel</i>
+  {{errorText}} Please try again shortly.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="text-center my-4" *ngIf="spinner">
+  <img class="spinner" src="../../../../assets/images/loaders/spin_lg_white_edge.gif">
+  <h6 class="text-monospace">Loading students...</h6>
+</div>
+<div class="mt-4 text-center empty-msg" *ngIf="emptyMsg">
+  <div><i class="material-icons md-55">person_search</i></div>
+  <div>
+    <p>No students found.</p>
+  </div>
+</div>
+
+<div *ngIf="studentsList" class="table-responsive">
+  <div class="data-parent bg-white shadow-sm border"
+    *ngFor="let i = index; let std of Students | paginate: {itemsPerPage: 10, currentPage: currentPageNumber+1, totalItems: totalElements};">
+    <div class="delete-items-loader text-center" *ngIf="(delVal == 'show'+std.studentId)">
+      <div>
+        <img src="../../../../assets/images/loaders/spim_sm_no_edges.gif" alt="spinner">
+        <span class="text-monospace mt-2 ml-2">Deleting...</span>
+      </div>
+    </div>
+    <div #deleteChild class="data-child-wrapper" [class.bg-blur]="(delVal == 'show'+std.studentId)"
+      [attr.data-delete-child-id]="std.studentId">
+      <div class="data-child-content">
+        <span class="data-child-teacher text-muted">Student ID: {{std.regNumber}}</span>
+        <h5 class="mt-1 mb-0 data-child-title">{{std.fName}} {{std.lName}}</h5>
+        <span class="data-child-teacher">{{std.eduQual}}</span>
+        <div class="row mt-3 mb-0">
+          <div class="col-sm-12 col-md-4 col-lg-4">
+            <span class="material-icons md-21 mr-2 float-left">grade</span>Grade — {{std.grade}}
+          </div>
+          <div class="col-sm-12 col-md-8 col-lg-8">
+            <span class="material-icons md-21 mr-2 float-left">translate</span>
+            <span *ngIf="std.medium == 'Sinhala'">Medium — සිංහල</span>
+            <span *ngIf="std.medium == 'English'">Medium — English</span>
+            <span *ngIf="std.medium == 'Tamil'">Medium — தமிழ்</span>
+          </div>
+        </div>
+        <hr>
+        <div class="row data-child-sub-factor align-items-center text-muted">
+          <div class="col-sm-12 col-md-4 col-lg-4 mb-3"><span
+              class="material-icons md-21 mr-2 float-left">call</span>Student Tel.
+            — {{std.telephone}}</div>
+          <div class="col-sm-12 col-md-4 col-lg-4 mb-3"><span
+              class="material-icons md-21 mr-2 float-left">call</span>Gardian Tel.
+            — {{std.garTelephone}}</div>
+          <div class="col-sm-12 col-md-4 col-lg-4 mb-3"><span
+              class="material-icons md-21 mr-2 float-left">place</span>City — {{std.city}}</div>
+          <div class="col-sm-12 col-md-12 col-lg-12 mb-0"><span
+              class="material-icons md-21 mr-2 float-left">home</span>Address — {{std.address}}</div>
+        </div>
+      </div>
+      <div class="data-child-actions">
+        <div>
+          <button class="action-btn del-btn ml-2 single-del-btn"
+            (click)="deleteSelectedStudent(std.studentId, deleteChild, currentPageNumber)">
+            <i class="material-icons md-19 float-left">clear</i>&nbsp;Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pagination-controls class="custom-pagination" responsive="true" previousLabel="Prev" nextLabel="Next"
+    (pageChange)="pageNumberClick($event)">
+  </pagination-controls>
+</div>

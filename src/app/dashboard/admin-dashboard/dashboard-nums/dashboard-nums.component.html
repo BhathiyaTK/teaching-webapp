@@ -1,0 +1,44 @@
+<div class="row align-items-center">
+    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+        <div class="spinner-div text-center bg-white" *ngIf="spinner">
+            <img class="spinner mr-2" src="../../../../assets/images/loaders/spin_lg_white_edge.gif">
+            <span class="text-monospace">Loading data...</span>
+        </div>
+        <div class="dashboard-num-div num-div1 custom-shadow-div p-4" *ngIf="dashboardComponents">
+            <img src="../../../../assets/images/class.png" alt="class.png">
+            <hr>
+            <div class="count">
+                <h1 class="display-3 font-weight-normal">{{totalClasses}}</h1>
+            </div>
+            <h5>Classes</h5>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+        <div class="spinner-div text-center bg-white" *ngIf="spinner">
+            <img class="spinner mr-2" src="../../../../assets/images/loaders/spin_lg_white_edge.gif">
+            <span class="text-monospace">Loading data...</span>
+        </div>
+        <div class="dashboard-num-div num-div2 custom-shadow-div p-4" *ngIf="dashboardComponents">
+            <img src="../../../../assets/images/teacher.png" alt="class.png">
+            <hr>
+            <div class="count">
+                <h1 class="display-3 font-weight-normal">{{teachersCount}}</h1>
+            </div>
+            <h5>Teachers</h5>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+        <div class="spinner-div text-center bg-white" *ngIf="spinner">
+            <img class="spinner mr-2" src="../../../../assets/images/loaders/spin_lg_white_edge.gif">
+            <span class="text-monospace">Loading data...</span>
+        </div>
+        <div class="dashboard-num-div num-div3 custom-shadow-div p-4" *ngIf="dashboardComponents">
+            <img src="../../../../assets/images/student.png" alt="class.png">
+            <hr>
+            <div class="count">
+                <h1 class="display-3 font-weight-normal">{{studentsCount}}</h1>
+            </div>
+            <h5>Students</h5>
+        </div>
+    </div>
+</div>

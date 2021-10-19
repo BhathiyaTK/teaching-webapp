@@ -1,0 +1,156 @@
+<div class="row mb-3 align-items-center justify-content-between">
+  <div class="col-sm-12 col-md-10 col-lg-5">
+    <form class="form-inline my-2 my-lg-0">
+      <div class="row w-100">
+        <div class="col-sm-12 col-md-6">
+          <input class="form-control mr-sm-2 w-100" type="search" placeholder="Search by Class name"
+            aria-label="Search">
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <input class="form-control mr-sm-2 w-100" type="search" placeholder="Search by Teacher's name"
+            aria-label="Search">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-sm-12 col-md-2 col-lg-2 text-right">
+    <button class="other-btn" (click)="dataRefresh(currentPageNumber)"><i
+        class="material-icons md-19 mr-2 float-left">cached</i> Refresh</button>
+  </div>
+</div>
+<div class="alert alert-success alert-dismissible text-left mb-3" *ngIf="successAlert">
+  <i class="material-icons float-left mr-2">check_circle</i>
+  {{successText}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="alert alert-danger alert-dismissible text-left mb-3" *ngIf="errorAlert">
+  <i class="material-icons float-left mr-2">cancel</i>
+  {{errorText}} Please try again shortly.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="text-center my-4" *ngIf="spinner">
+  <img class="spinner" src="../../../../assets/images/loaders/spin_lg_white_edge.gif">
+  <h6 class="text-monospace">Loading classes...</h6>
+</div>
+<div class="mt-4 text-center empty-msg" *ngIf="emptyMsg">
+  <div><i class="material-icons md-55">upcoming</i></div>
+  <div>
+    <p>No classes found.</p>
+  </div>
+</div>
+<div *ngIf="classesTable">
+  <div class="data-parent bg-white shadow-sm border"
+    *ngFor="let i = index; let class of Classes | paginate: {itemsPerPage: 8, currentPage: currentPageNumber+1, totalItems: totalElements};"
+    id="data{{class.tutionClassId}}">
+    <div class="data-child-wrapper">
+      <div class="data-child-content">
+        <h5 class="mb-0 data-child-title">{{class.name}}</h5>
+        <span class="data-child-teacher">By {{class.teacherEntity.fName}} {{class.teacherEntity.lName}} &nbsp; | &nbsp;
+          Class ID: {{class.tutionClassId}}</span>
+        <p class="mt-2 mb-0 classNote">
+          <!-- {{class.notes}} -->
+          <app-read-more-less [content]="longText" [limit]="90" [completeWords]="true"></app-read-more-less>
+        </p>
+        <hr>
+        <div class="row data-child-sub-factor align-items-centers text-muted">
+          <div class="col-sm-12 col-md-4 col-lg-3"><span class="material-icons md-21 mr-2 float-left">event</span>Held
+            on
+            — {{class.hDate}}</div>
+          <div class="col-sm-12 col-md-4 col-lg-3"><span
+              class="material-icons md-21 mr-2 float-left">schedule</span>Time
+            — {{timeConverter(class.htime)}}
+          </div>
+          <div class="col-sm-12 col-md-4 col-lg-3"><span class="material-icons md-21 mr-2 float-left">payments</span>Fee
+            —
+            {{currencyConvertor(class.classFee)}}</div>
+        </div>
+      </div>
+      <div class="data-child-actions">
+        <div>
+          <button type="button" class="action-btn normal-btn" data-toggle="modal" data-target="#editClassModal"
+            (click)="selectedEditClass(class.tutionClassId, currentPageNumber)">
+            <i class="material-icons md-19 float-left">edit</i>&nbsp;Edit Details
+          </button>
+          <button type="button" class="action-btn del-btn"
+            (click)="deleteSelectedClass(class.tutionClassId, currentPageNumber)">
+            <i class="material-icons md-19 float-left">clear</i>&nbsp;Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pagination-controls class="custom-pagination" responsive="true" previousLabel="Prev" nextLabel="Next"
+    (pageChange)="pageNumberClick($event)">
+  </pagination-controls>
+</div>
+
+
+<div class="modal fade" id="editClassModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="selectedClass">
+  <img *ngIf="modalLoadSpinner" class="spinner modal-loading-spinner"
+    src="../../../../assets/images/loaders/spin_lg.gif">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" *ngFor="let clz of selectedClass">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Class Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <small>Class ID : {{clz.tutionClassId}}</small>
+        <hr>
+        <form (ngSubmit)="updateClass(currentPageNumber, clz.tutionClassId, clzUpdateForm)" #clzUpdateForm="ngForm">
+          <div class="form-group">
+            <label>Class Name</label>
+            <input type="text" name="className" class="form-control" [(ngModel)]="clz.name" required>
+          </div>
+          <div class="form-group">
+            <label>Held Date</label>
+            <select name="heldDate" class="form-control" [(ngModel)]="clz.hDate" required>
+              <option value="">Choose...</option>
+              <option value="Monday" [selected]="clz.hDate">Monday</option>
+              <option value="Tuesday" [selected]="clz.hDate">Tuesday</option>
+              <option value="Wednesday" [selected]="clz.hDate">Wednesday</option>
+              <option value="Thursday" [selected]="clz.hDate">Thursday</option>
+              <option value="Friday" [selected]="clz.hDate">Friday</option>
+              <option value="Saturday" [selected]="clz.hDate">Saturday</option>
+              <option value="Sunday" [selected]="clz.hDate">Sunday</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Held Time</label>
+            <input type="time" name="classTime" class="form-control" [(ngModel)]="clz.htime" required>
+          </div>
+          <div class="form-group">
+            <label>Fee</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><small>Rs.</small></div>
+              </div>
+              <input type="text" name="classFee" class="form-control" [(ngModel)]="clz.classFee"
+                style="border-radius: 0 7px 7px 0 !important;" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Note</label>
+            <textarea class="form-control" name="classNote" cols="30" rows="4" maxlength="500"
+              placeholder="Briefly introduce the class..." [(ngModel)]="clz.notes" required></textarea>
+            <div class="text-right">
+              <small class="textarea-limit-indicator text-muted">Maximum 500 characters only</small>
+            </div>
+          </div>
+          <input type="hidden" name="classTeacher" [(ngModel)]="clz.teacherEntity.teacherId">
+          <hr>
+          <div class="text-center">
+            <button class="theme-btn">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.notification-bubble {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--red);
+  border-radius: 50%;
+  margin-left: 7px;
+  box-shadow: 0px 0px 4px 1px rgb(250, 65, 65);
+}
+
+.blink {
+  text-decoration: blink;
+  animation: blinker 0.5s infinite ease-in-out;
+  animation-direction: alternate;
+  -webkit-animation: blinker 0.8s infinite ease-in-out;
+  -webkit-animation-direction: alternate;
+}
+@keyframes blinker {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
